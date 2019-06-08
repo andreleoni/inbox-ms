@@ -6,7 +6,7 @@ echo "Deploying to ${DEPLOYMENT_ENVIRONMENT}"
 
 echo $ACCOUNT_KEY_STAGING > service_key.txt
 
-curl -sSL https://sdk.cloud.google.com | bash
+apk add curl
 
 base64 service_key.txt -d > ${HOME}/gcloud-service-key.json
 
