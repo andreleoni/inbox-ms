@@ -1,21 +1,35 @@
-language: ruby
+# The Google Cloud SDK on Travis is pretty old (2014). So if
+# you want to use an up-to-date version, you have to install
+# your own. This config is the bare minimum you'll need to
+# get an updated version of the SDK + kubectl.
+cache:
+  directories:
+  # We cache the SDK so we don't have to download it again on subsequent builds.
+  - $HOME/google-cloud-sdk
+services:
+# Include the docker service so you can roll your own images.
+# You can remove this if you already have images somewhere else.
+- docker
+env:
+  global:
+  # Do not prompt for user input when using any SDK methods.
+  - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 
 before_install:
-# Decrypt the credentials we added to the repo using the key we added with the Travis command line tool
-- openssl aes-256-cbc -K $encrypted_4cd12b3bd1e7_key -iv $encrypted_4cd12b3bd1e7_iv -in credentials.tar.gz.enc -out credentials.tar.gz -d
-# If the SDK is not already cached, download it and unpack it
-- tar -xzf credentials.tar.gz
-- mkdir -p lib
+- if [ ! -d $HOME/google-cloud-sdk/bin ]; then
+    # The install script errors if this directory already exists,
+    # but Travis already creates it when we mark it as cached.
+    rm -rf $HOME/google-cloud-sdk;
+    # The install script is overly verbose, which sometimes causes
+    # problems on Travis, so ignore stdout.
+    curl https://sdk.cloud.google.com | bash > /dev/null;
+  fi
+# This line is critical. We setup the SDK to take precedence in our
+# environment over the old SDK that is already on the machine.
+- source $HOME/google-cloud-sdk/path.bash.inc
+- gcloud components update kubectl
+- gcloud version
 
-install:
-- bundle install
-
-script:
-- echo "No Script to run"
-
-deploy:
-    provider: gae
-    keyfile: microserviceevaluation.json
-    project: 	microserviceevaluation
-    script: ./deploy-production.sh
-    default: true
+# Insert your own install + script below.
+install: true
+script: true
