@@ -8,7 +8,7 @@ echo $ACCOUNT_KEY > service_key.txt
 
 base64 service_key.txt -d > ${HOME}/gcloud-service-key.json
 
-cat gcloud-service-key.json
+cat ${HOME}/gcloud-service-key.json
 
 gcloud auth activate-service-account ${ACCOUNT_ID} --key-file ${HOME}/gcloud-service-key.json
 
