@@ -6,22 +6,26 @@ echo "Deploying to ${DEPLOYMENT_ENVIRONMENT}"
 
 echo $ACCOUNT_KEY_STAGING > service_key.txt
 
-base64 service_key.txt -d > ${HOME}/gcloud-service-key.json
+base64 -i service_key.txt -d > ${HOME}/gcloud-service-key.json
 
 gcloud auth activate-service-account ${ACCOUNT_ID} --key-file ${HOME}/gcloud-service-key.json
 
-gcloud config set project $PROJECT_ID
+gcloud config set project microserviceevaluation
 
-gcloud --quiet config set container/cluster $CLUSTER_NAME
+gcloud config set compute/zone us-central1-a
 
-gcloud config set compute/zone $CLOUDSDK_COMPUTE_ZONE
+gcloud --quiet config set container/cluster microservices
 
-gcloud --quiet container clusters get-credentials $CLUSTER_NAME
+gcloud --quiet container clusters get-credentials microservices
 
-docker build -t gcr.io/${PROJECT_ID}/${REG_ID}:$CIRCLE_SHA1 .
+IMAGE_ID=`docker images | grep andreleoni\/inbox-microservice | head -n1 | awk '{print $3}'`
 
-gcloud docker -- push gcr.io/${PROJECT_ID}/${REG_ID}:$CIRCLE_SHA1
+docker build -t andreleoni/inbox-microservice:$IMAGE_ID .
 
-kubectl set image deployment/${DEPLOYMENT_NAME} ${CONTAINER_NAME}=gcr.io/${PROJECT_ID}/${REG_ID}:$CIRCLE_SHA1
+docker build -t microservices/${PROJECT_ID}/${REG_ID}:$CIRCLE_SHA1 .
 
-echo " Successfully deployed to ${DEPLOYMENT_ENVIRONMENT}"
+gcloud docker -- push microservices/${PROJECT_ID}/${REG_ID}:$CIRCLE_SHA1
+
+kubectl set image deployment/${DEPLOYMENT_NAME} ${CONTAINER_NAME}=microservices/${PROJECT_ID}/${REG_ID}:$CIRCLE_SHA1
+
+echo " Successfully deployed to production"

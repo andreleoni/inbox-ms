@@ -5,14 +5,13 @@ jobs:
       - image: andreleoni/inbox-ms:latest
     working_directory: ~/app
     environment:
-      DEPLOYMENT_NAME: inbox-ms
+      DEPLOYMENT_NAME: inbox-ms-v1
       PROJECT_ID: microserviceevaluation
       CLUSTER_NAME: microservices
       CLOUDSDK_COMPUTE_ZONE: us-central1-a
       CONTAINER_NAME: inbox-ms
       IMAGE: andre-leoni
-      REG_ID: ci-cd
-      REG_ID_PROD: ci-cd-prod
+      REG_ID: inbox-ms
       IMG_TAG: 0.1.0
       PROJECT_NAME: inbox-ms
       DEPLOYMENT_ENVIRONMENT: production

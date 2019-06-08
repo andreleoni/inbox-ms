@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: inbox-ms
-        image: $$DOCKER_IMAGE
+        image: andreleoni/inbox-microservice:latest
         args: ["rails s -p 3001 -b 0.0.0.0"]
         imagePullPolicy: IfNotPresent
         env:
