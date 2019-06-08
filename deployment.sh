@@ -8,6 +8,8 @@ echo $ACCOUNT_KEY_STAGING > service_key.txt
 
 apk add curl
 
+curl -sSL https://sdk.cloud.google.com > /tmp/gcl && bash /tmp/gcl --install-dir=~/gcloud --disable-prompts
+
 base64 service_key.txt -d > ${HOME}/gcloud-service-key.json
 
 gcloud auth activate-service-account ${ACCOUNT_ID} --key-file ${HOME}/gcloud-service-key.json
