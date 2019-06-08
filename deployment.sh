@@ -4,7 +4,8 @@ set -e
 
 echo "Deploying to ${DEPLOYMENT_ENVIRONMENT}"
 
-echo $ACCOUNT_KEY_STAGING > service_key.txt
+echo $ACCOUNT_KEY > service_key.txt
+echo service_key.txt
 
 base64 service_key.txt -d > ${HOME}/gcloud-service-key.json
 
