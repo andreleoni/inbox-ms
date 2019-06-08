@@ -1,6 +1,6 @@
 class V1::MessagesController < ApplicationController
   def index
-    render json:
+    render json: load_messages
   end
 
   private
