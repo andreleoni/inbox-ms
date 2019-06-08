@@ -1,14 +1,22 @@
-language: ruby
+branches:
+  only:
+  - master
 
-rvm:
-  - 2.5.1
+cache:
+  directories:
+  # We cache the SDK so we don't have to download it again on subsequent builds.
+  - $HOME/google-cloud-sdk
 
-notifications:
-  email:
-    - andreluizleoni@gmail.com
+services:
+- docker
 
-before_install:
-  - gem install bundler
+env:
+  global:
+  - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 
 script:
   - bundle exec rspec
+
+# Deploy to Google Kubernetes Engine
+after_success:
+- if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then ./deploy.sh; fi
