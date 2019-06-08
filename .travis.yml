@@ -1,11 +1,9 @@
 branches:
   only:
   - master
-
 cache:
   directories:
-  # We cache the SDK so we don't have to download it again on subsequent builds.
-  - $HOME/google-cloud-sdk
+  - "$HOME/google-cloud-sdk"
 
 services:
 - docker
@@ -14,9 +12,13 @@ env:
   global:
   - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 
-script:
-  - bundle exec rspec
+  script:
+- bundle exec rspec
 
-# Deploy to Google Kubernetes Engine
 after_success:
-- if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then ./deploy.sh; fi
+- if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
+  ./deploy.sh; fi
+
+before_install:
+- openssl aes-256-cbc -K $encrypted_b3b467c0d736_key -iv $encrypted_b3b467c0d736_iv
+  -in client-secret.json.enc -out client-secret.json -d
