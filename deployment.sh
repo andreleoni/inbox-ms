@@ -6,6 +6,8 @@ echo "Deploying to ${DEPLOYMENT_ENVIRONMENT}"
 
 echo $ACCOUNT_KEY_STAGING > service_key.txt
 
+curl -sSL https://sdk.cloud.google.com | bash
+
 base64 service_key.txt -d > ${HOME}/gcloud-service-key.json
 
 gcloud auth activate-service-account ${ACCOUNT_ID} --key-file ${HOME}/gcloud-service-key.json
