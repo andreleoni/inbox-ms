@@ -24,4 +24,10 @@ TAG=`git rev-parse --short HEAD`
 # docker push andreleoni/inbox-microservice:$TAG
 # docker push andreleoni/inbox-microservice:latest
 
+cp /etc/kubernetes/admin.conf $HOME/
+
+chown $(id -u):$(id -g) $HOME/admin.conf
+
+export KUBECONFIG=$HOME/admin.conf
+
 cat kube/deployment.yaml | sed s/\$\$DOCKER_IMAGE/andreleoni\\/inbox-microservice:$TAG/g | kubectl apply -f -
