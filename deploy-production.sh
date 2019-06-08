@@ -9,6 +9,8 @@ fi
 # Promote gcloud to PATH top priority (prevent using old version fromt travis)
 source $HOME/google-cloud-sdk/path.bash.inc
 
+gcloud container clusters get-credentials microservices --zone us-central1-a --project microserviceevaluation
+
 # Make sure kubectl is updated to latest version
 gcloud components update kubectl
 
