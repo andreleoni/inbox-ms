@@ -15,7 +15,7 @@ script:
 
 deploy:
     provider: gae
-    keyfile: client-secret.json
+    keyfile: microserviceevaluation.json
     project: 	microserviceevaluation
     script: ./deploy-production.sh
     default: true
