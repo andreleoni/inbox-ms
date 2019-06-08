@@ -15,9 +15,11 @@ env:
   script:
 - bundle exec rspec
 
-after_success:
-- if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
-  ./deploy.sh; fi
+deploy:
+  provider: script
+  script: deploy.sh
+  on:
+    branch: master
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_b3b467c0d736_key -iv $encrypted_b3b467c0d736_iv

@@ -14,6 +14,8 @@ gcloud components update kubectl
 
 TAG=`git rev-parse --short HEAD`
 
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin=
+
 docker build -t andreleoni/inbox-microservice:$TAG .
 
 IMAGE_ID=`docker images | grep andreleoni\/inbox-microservice | head -n1 | awk '{print $3}'`
