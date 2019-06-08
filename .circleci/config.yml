@@ -1,0 +1,38 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: andreleoni/inbox-ms:latest
+    working_directory: ~/app
+    environment:
+      DEPLOYMENT_NAME: inbox-ms
+      PROJECT_ID: microserviceevaluation
+      CLUSTER_NAME: microservices
+      CLOUDSDK_COMPUTE_ZONE: us-central1-a
+      CONTAINER_NAME: inbox-ms
+      IMAGE: andre-leoni
+      REG_ID: ci-cd
+      REG_ID_PROD: ci-cd-prod
+      IMG_TAG: 0.1.0
+      PROJECT_NAME: inbox-ms
+      DEPLOYMENT_ENVIRONMENT: production
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - run:
+          name: Install depencencies
+          command: |
+            bundle install
+
+      - run:
+          name: Run specs
+          command: |
+            rspec
+
+      - run:
+          name: Build and Deploy
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              ./deployment.sh
+            fi
