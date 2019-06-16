@@ -10,6 +10,8 @@ base64 service_key.txt -d > ${HOME}/gcloud-service-key.json
 
 gcloud auth activate-service-account ${ACCOUNT_ID} --key-file ${HOME}/gcloud-service-key.json
 
+gcloud auth configure-docker -q
+
 gcloud config set project $PROJECT_ID
 
 gcloud config set compute/zone $CLOUDSDK_COMPUTE_ZONE
