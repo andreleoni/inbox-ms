@@ -12,7 +12,8 @@ class V1::MessagesController < ApplicationController
       { message_id: 4, title: "Ainda outra mensagem de teste" },
       { message_id: 5, title: "Ainda outra mensagem de teste" },
       { message_id: 6, title: "mais uma, só pra ve" },
-      { message_id: 7, title: "mais uma, só pra ve" }
+      { message_id: 7, title: "mais uma, só pra ve" },
+      { message_id: 8, title: "mais uma, só pra ve" }
     ]
   end
 end
