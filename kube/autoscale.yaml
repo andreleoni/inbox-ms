@@ -10,4 +10,4 @@ spec:
     name: inbox-ms-v1
   minReplicas: 1
   maxReplicas: 10
-  targetCPUUtilizationPercentage: 20
+  targetCPUUtilizationPercentage: 80
